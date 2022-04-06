@@ -1,22 +1,23 @@
 const FavListService = require('../services/FavListService');
 
-createList = async (req, res) => {
-    res.status(200).send({ action: 'New favorite\'s list created', data: null });
+const createList = async (req, res) => {
+    const favList = await FavListService.createList(req.body, req.user);
+    res.status(200).send({ action: 'New favorite\'s list created', data: favList });
 }
 
-getAll = async (req, res) => {
+const getAll = async (req, res) => {
     res.status(200).send({ action: 'All favorite\'s list retrieved', data: null });
 }
 
-getByUser = async (req, res) => {
+const getByUser = async (req, res) => {
     res.status(200).send({ action: 'Favorite\'s list from user <{}> retrieved', data: null });
 }
 
-addItem = async (req, res) => {
+const addItem = async (req, res) => {
     res.status(200).send({ action: 'Item added to Favorite\'s List <{}>', data: null });
 }
 
-deleteList = async (req, res) => {
+const deleteList = async (req, res) => {
     res.status(200).send({ action: 'Favorite\'s List <{}> deleted', data: null });
 }
 
