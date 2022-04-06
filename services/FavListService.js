@@ -1,15 +1,19 @@
 const FavListSchema = require('../models/FavList');
 
-const createList = ({ name, favs }, user) => {
+const saveList = async ({ name, favs }, user) => {
     const favList = new FavListSchema({ name, favs, user });
-    return favList;
+
+    const favListCreated = await favList.save();
+    console.log(`Fav List<${JSON.stringify(favListCreated)}> created`);
+
+    return favListCreated;
 };
 
-const getByUser = (user) => {
+const findListByUser = (user) => {
     return FavListSchema.findByUser(user.id);
 }
 
 module.exports = {
-    createList,
-    getByUser
+    saveList,
+    findListByUser
 };

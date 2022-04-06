@@ -24,7 +24,12 @@ const getToken = async ({ email, password }) => {
     return token;
 }
 
+const getById = async (id) => {
+    return await UserSchema.findById(id);
+}
+
 module.exports = {
     createUser,
-    getToken
+    getToken,
+    getById
 };

@@ -1,10 +1,11 @@
 const moment = require('moment');
 
+const { getById } = require('../services/UserService');
 const { decodeToken } = require('../services/JwtService');
 
 const secret = process.env.JWT_SECRET_KEY;
 
-const checkAuth = (req, res, next) => {
+const checkAuth = async (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(403).send({ message: 'Missing Authentication Token' });
     }
@@ -19,7 +20,7 @@ const checkAuth = (req, res, next) => {
             return res.status(403).send({ message: 'Token expired' });
         }
 
-        req.user = payload;
+        req.user = await getById(payload.id);
 
     } catch (ex) {
         console.log('Exception while authenticating ', ex);
