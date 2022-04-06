@@ -1,16 +1,18 @@
+//Configuration
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config({
     path: '.env',
 });
 
-const favListRouter = require('./routers/FavListRouter');
-
 const app = express();
 app.use(express.json());
 
-app.use("/api/favs", favListRouter);
+//Routers
+app.use('/api/favs', require('./routers/FavListRouter'));
+app.use('/auth/local', require('./routers/UserRouter'));
 
+//Run
 app.listen(process.env.PORT || 8000, () => {
     mongoose.connect(process.env.DB_CONNECTION_STRING_URI)
         .then(() => console.log(`Successfully connected to DB <{${process.env.DB_CONNECTION_STRING_URI}}>`))
