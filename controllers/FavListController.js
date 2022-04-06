@@ -1,4 +1,4 @@
-const { saveList } = require('../services/FavListService');
+const { saveList, findAllLists, findListsByUser, addItemToList, removeList } = require('../services/FavListService');
 
 const createList = async (req, res) => {
     const favList = await saveList(req.body, req.user);
@@ -6,11 +6,13 @@ const createList = async (req, res) => {
 }
 
 const getAll = async (req, res) => {
-    res.status(200).send({ message: 'All favorite\'s list retrieved', data: null });
+    const favLists = await findAllLists();
+    res.status(200).send({ message: 'All favorite\'s list retrieved', data: favLists });
 }
 
 const getByUser = async (req, res) => {
-    res.status(200).send({ message: 'Favorite\'s list from user <{}> retrieved', data: null });
+    const favLists = await findListsByUser(req.user);
+    res.status(200).send({ message: `Favorite\'s lists from user <${req.user._id}> retrieved`, data: favLists });
 }
 
 const addItem = async (req, res) => {

@@ -5,7 +5,7 @@ const { decodeToken } = require('../services/JwtService');
 
 const secret = process.env.JWT_SECRET_KEY;
 
-const checkAuth = async (req, res, next) => {
+const isAuthenticated = async (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(403).send({ message: 'Missing Authentication Token' });
     }
@@ -31,5 +31,5 @@ const checkAuth = async (req, res, next) => {
 };
 
 module.exports = {
-    checkAuth
+    isAuthenticated
 };
