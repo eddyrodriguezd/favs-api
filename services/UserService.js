@@ -11,11 +11,14 @@ const createUser = ({ email, password }) => {
 };
 
 const getToken = async ({ email, password }) => {
+    if (email === undefined || password === undefined) return undefined;
+
     const user = await UserSchema.findOne({ email });
 
-    if (password !== user.password) {
-        return undefined;
-    }
+    if (user === null) return undefined;
+
+    const isPasswordMatched = await user.comparePassword(password);
+    if (!isPasswordMatched) return undefined;
 
     const token = createAccessToken(user);
     return token;
