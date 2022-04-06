@@ -1,12 +1,12 @@
 const { createList, getAll, getByUser, addItem, deleteList } = require('../controllers/FavListController');
-const { checkAuth } = require('../middlewares/auth');
+const { isAuthenticated } = require('../middlewares/auth');
 
 const api = require('express').Router();
 
-api.post("/", checkAuth, createList);
-api.get("/", checkAuth, getAll);
-api.get("/:id", checkAuth, getByUser);
-api.post("/:id", checkAuth, addItem);
-api.delete("/:id", checkAuth, deleteList);
+api.post("/", isAuthenticated, createList);
+api.get("/", isAuthenticated, getAll);
+api.get("/:id", isAuthenticated, getByUser);
+api.post("/:id", isAuthenticated, addItem);
+api.delete("/:id", isAuthenticated, deleteList);
 
 module.exports = api;
