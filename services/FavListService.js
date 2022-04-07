@@ -1,6 +1,10 @@
 const FavListSchema = require('../models/FavList');
 
 const saveList = async ({ name, favs }, user) => {
+    if (name === undefined) throw new Error('Name parameter is missing');
+    if (favs === undefined) throw new Error('Favs parameter is missing');
+    if (favs.length === 0) throw new Error('Favs array must have at least one element');
+
     const favList = new FavListSchema({ name, favs, user });
 
     const favListCreated = await favList.save();
@@ -22,8 +26,12 @@ const findOneList = async (user, listId) => {
     return favList[0];
 }
 
-const addItemToList = async (user, listId, fav) => {
-    const updateParams = await FavListSchema.addFavToList(user._id, listId, fav);
+const addItemToList = async (user, listId, { title, description, link }) => {
+    if (title === undefined) throw new Error('Title parameter is missing');
+    if (description === undefined) throw new Error('Description parameter is missing');
+    if (link === undefined) throw new Error('Link parameter is missing');
+
+    const updateParams = await FavListSchema.addFavToList(user._id, listId, { title, description, link });
     return updateParams.modifiedCount === 1;
 }
 

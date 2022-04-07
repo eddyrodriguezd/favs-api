@@ -1,13 +1,23 @@
 const { saveList, findAllLists, findOneList, addItemToList, removeList } = require('../services/FavListService');
 
 const createList = async (req, res) => {
-    const favList = await saveList(req.body, req.user);
-    res.status(200).send({ message: 'New favorite\'s list created', data: favList });
+    try {
+        const favList = await saveList(req.body, req.user);
+        res.status(200).send({ message: 'New favorite\'s list created', data: favList });
+    } catch (err) {
+        res.status(400).send({ error: err.message });
+    }
 }
 
 const getAll = async (req, res) => {
     const favLists = await findAllLists(req.user);
-    res.status(200).send({ message: 'All favorite\'s list retrieved', data: favLists });
+
+    if (favLists.length == 0) {
+        res.status(200).send({ message: 'No list created yet' });
+    }
+    else {
+        res.status(200).send({ message: 'All favorite\'s lists retrieved', data: favLists });
+    }
 }
 
 const getOne = async (req, res) => {
@@ -25,13 +35,17 @@ const getOne = async (req, res) => {
 const addItem = async (req, res) => {
     const listId = req.params.id;
     const newFav = req.body;
-    const updated = await addItemToList(req.user, listId, newFav);
 
-    if (!updated) {
-        res.status(400).send({ message: `No Favorite\'s list available for id <${listId}>`, data: null });
-    }
-    else {
-        res.status(200).send({ message: `Item added to Favorite\'s list with id <${listId}>`, data: newFav });
+    try {
+        const updated = await addItemToList(req.user, listId, newFav);
+        if (!updated) {
+            res.status(400).send({ message: `No Favorite\'s list available for id <${listId}>`, data: null });
+        }
+        else {
+            res.status(200).send({ message: `Item added to Favorite\'s list with id <${listId}>`, data: newFav });
+        }
+    } catch (err) {
+        res.status(400).send({ error: err.message });
     }
 }
 
