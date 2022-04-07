@@ -10,7 +10,7 @@ const isAuthenticated = async (req, res, next) => {
         return res.status(403).send({ message: 'Missing Authentication Token' });
     }
 
-    const token = req.headers.authorization.replace(/['"]+/g, "");
+    const token = req.headers.authorization.split(" ")[1];
 
     try {
         const payload = decodeToken(token, secret);
