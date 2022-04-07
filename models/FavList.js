@@ -28,7 +28,7 @@ FavListSchema.statics.addFavToList = function (userId, favListId, fav) {
 };
 
 FavListSchema.statics.removeFavList = function (userId, favListId) {
-    return this.remove({ 'user': userId, '_id': favListId }, 1);
+    return this.remove({ 'user': userId, '_id': favListId });
 };
 
 module.exports = model('FavList', FavListSchema);

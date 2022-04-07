@@ -36,7 +36,15 @@ const addItem = async (req, res) => {
 }
 
 const deleteList = async (req, res) => {
-    res.status(200).send({ message: 'Favorite\'s List <{}> deleted', data: null });
+    const listId = req.params.id;
+    const deleted = await removeList(req.user, listId);
+
+    if (!deleted) {
+        res.status(400).send({ message: `No Favorite\'s list available for id <${listId}>`, data: null });
+    }
+    else {
+        res.status(200).send({ message: `Favorite\'s List with id <${listId}> deleted`, data: null });
+    }
 }
 
 module.exports = {

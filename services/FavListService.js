@@ -29,8 +29,7 @@ const addItemToList = async (user, listId, fav) => {
 
 const removeList = async (user, listId) => {
     const deleteParams = await FavListSchema.removeFavList(user._id, listId);
-    console.log('deleteParams', deleteParams);
-    return null;
+    return deleteParams.deletedCount === 1;
 }
 
 module.exports = {
