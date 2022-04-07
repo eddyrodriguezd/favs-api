@@ -16,4 +16,19 @@ FavListSchema.statics.findByUser = function (userId) {
     return this.find({ 'user': userId });
 };
 
+FavListSchema.statics.findByUserAndId = function (userId, favListId) {
+    return this.find({ 'user': userId, '_id': favListId }).limit(1);
+};
+
+FavListSchema.statics.addFavToList = function (userId, favListId, fav) {
+    return this.updateOne(
+        { 'user': userId, '_id': favListId },
+        { $push: { 'favs': fav } }
+    );
+};
+
+FavListSchema.statics.removeFavList = function (userId, favListId) {
+    return this.remove({ 'user': userId, '_id': favListId }, 1);
+};
+
 module.exports = model('FavList', FavListSchema);
