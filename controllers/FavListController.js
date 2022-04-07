@@ -25,7 +25,7 @@ const getOne = async (req, res) => {
     const favList = await findOneList(req.user, listId);
 
     if (favList === null) {
-        res.status(400).send({ message: `No Favorite\'s list available for id <${listId}>`, data: null });
+        res.status(400).send({ error: `No Favorite\'s list available for id <${listId}>` });
     }
     else {
         res.status(200).send({ message: `Favorite\'s list with id <${listId}> retrieved`, data: favList });
@@ -39,7 +39,7 @@ const addItem = async (req, res) => {
     try {
         const updated = await addItemToList(req.user, listId, newFav);
         if (!updated) {
-            res.status(400).send({ message: `No Favorite\'s list available for id <${listId}>`, data: null });
+            res.status(400).send({ error: `No Favorite\'s list available for id <${listId}>` });
         }
         else {
             res.status(200).send({ message: `Item added to Favorite\'s list with id <${listId}>`, data: newFav });
@@ -54,10 +54,10 @@ const deleteList = async (req, res) => {
     const deleted = await removeList(req.user, listId);
 
     if (!deleted) {
-        res.status(400).send({ message: `No Favorite\'s list available for id <${listId}>`, data: null });
+        res.status(400).send({ error: `No Favorite\'s list available for id <${listId}>` });
     }
     else {
-        res.status(200).send({ message: `Favorite\'s List with id <${listId}> deleted`, data: null });
+        res.status(200).send({ message: `Favorite\'s List with id <${listId}> deleted` });
     }
 }
 
